@@ -1,0 +1,3 @@
+wejsc w folder
+sudo docker build -t obraz_nginx .
+sudo docker run -dit --name kontener_nginx -p 80:80 -p 443:443 obraz_nginx

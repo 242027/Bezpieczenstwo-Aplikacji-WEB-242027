@@ -1,0 +1,50 @@
+FROM nginx
+LABEL maintainer = "242027"
+# update
+RUN apt-get update
+# wykonujemy kopiowanie stronki
+COPY ./index.html /var/www/html/index.html
+
+# Utworzenie wymaganych folderów 
+RUN mkdir /var/www/html/http-only
+RUN mkdir /var/www/html/http-https
+RUN mkdir /var/www/html/https-only
+#wgranie katalogów dla klientow
+RUN mkdir /var/www/html/only-user-a
+RUN mkdir /var/www/html/only-user-b
+RUN mkdir /var/www/html/user-a-or-b
+#wgranie katalogów zadanie 3
+RUN mkdir /var/www/html/limit-a
+RUN mkdir /var/www/html/limit-b
+RUN mkdir /var/www/html/delay
+RUN mkdir /var/www/html/deny-all
+RUN mkdir /var/www/html/adresy-ip
+RUN mkdir /var/www/html/user-agent
+
+# wgranie plików html
+COPY ./httponly.html /var/www/html/http-only/http-only.html
+COPY ./httpsonly.html /var/www/html/https-only/https-only.html
+COPY ./httphttps.html /var/www/html/http-https/http-https.html
+#wgranie klientow plikow html
+COPY ./indexklientA.html /var/www/html/only-user-a/index.html
+COPY ./indexklientB.html /var/www/html/only-user-b/index.html
+COPY ./indexklientAiB.html /var/www/html/user-a-or-b/index.html
+#wgranie plików html zadanie 3
+COPY ./limit-a.html /var/www/html/limit-a/limit-a.html
+COPY ./limit-b.html /var/www/html/limit-b/limit-b.html
+COPY ./delay.html /var/www/html/delay/delay.html
+COPY ./deny-all.html /var/www/html/deny-all/deny-all.html
+COPY ./adresy-ip.html /var/www/html/adresy-ip/adresy-ip.html
+COPY ./user-agent.html /var/www/html/user-agent/user-agent.html
+
+# wgranie wygenerowanych wcześniej kluczy i certyfikatu
+COPY ./selfsigned.key /etc/ssl/private/nginx-selfsigned.key
+COPY ./selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+COPY ./nginx-ca.crt /etc/ssl/certs/nginx-selfsigned-ca.crt
+
+# wgranie już gotowej konfiguracji
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+#RUN nginx -s reload
+#sudo docker exec krakow nginx -s reload
+# przeładowanie nginx
