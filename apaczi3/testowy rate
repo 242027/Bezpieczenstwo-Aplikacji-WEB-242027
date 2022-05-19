@@ -1,0 +1,5 @@
+<Location "/downloads">
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 400 
+    SetEnv rate-initial-burst 512
+</Location>

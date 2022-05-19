@@ -1,0 +1,3 @@
+wejsc w folder
+sudo docker build -t obraz_apache .
+sudo docker run -dit --name kontener_apache -p 8082:80 -p 44445:443 obraz_apache
