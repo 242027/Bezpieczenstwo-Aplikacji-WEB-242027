@@ -1,0 +1,21 @@
+FROM httpd:2.4 
+	#pobranie wezwanie apacza, który będzie bazą do dalszych działan
+LABEL maintainer = "242027"
+	# nazwa wlasciciela
+RUN apt-get update
+#RUN apt-get install nano
+COPY ./index.html /usr/local/apache2/htdocs/
+	#sciezka do stronki
+COPY ./apaczi_sroda.key /usr/local/apache2/conf/server.key
+COPY ./apaczi_sroda.crt /usr/local/apache2/conf/server.crt
+	#wgranie certyfikatów
+RUN mkdir /usr/local/apache2/htdocs/http-only
+RUN mkdir /usr/local/apache2/htdocs/http-https
+COPY ./indexhttp.html /usr/local/apache2/htdocs/http-only/index2.index
+COPY ./indexhttps.html /usr/local/apache2/htdocs/http-https/index3.index
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
+	#konfiguracja apacza z zdekomentowaniem już tych 3 linijek i servername = localhost
+COPY ./httpd-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+	#konfiguracja pliku httpd-ssl.conf 
+RUN apachectl 
+
