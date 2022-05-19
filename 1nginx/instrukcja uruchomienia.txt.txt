@@ -1,2 +1,0 @@
-sudo docker build -t obrazn .
-sudo docker run -dit --name kontenernginx -p 80:80 -p 443:443 obrazn
