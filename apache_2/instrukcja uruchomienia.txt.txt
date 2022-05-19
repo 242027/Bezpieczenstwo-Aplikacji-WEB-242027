@@ -1,0 +1,2 @@
+sudo docker build -t obraz .
+sudo docker run -dit --name apache -p 8082:80 -p 44445:443 obraz
