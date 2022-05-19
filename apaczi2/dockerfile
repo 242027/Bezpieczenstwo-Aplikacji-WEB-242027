@@ -1,0 +1,36 @@
+FROM httpd:2.4 
+	#pobranie wezwanie apacza, który będzie bazą do dalszych działan
+LABEL maintainer = "242027"
+	# nazwa wlasciciela
+RUN apt-get update
+#RUN apt-get install nano
+COPY ./index.html /usr/local/apache2/htdocs/
+	#sciezka do stronki
+COPY ./selfsigned.key /usr/local/apache2/conf/selfsigned.key
+COPY ./selfsigned.crt /usr/local/apache2/conf/selfsigned.crt
+	#wgranie certyfikatów
+	
+RUN mkdir /usr/local/apache2/conf/ssl.crt
+COPY ./selfsigned-ca.crt /usr/local/apache2/conf/ssl.crt/selfsigned-ca.crt
+	#wpierw stworzenie katalogu i potem wgranie klienckich
+	
+RUN mkdir /usr/local/apache2/htdocs/http-only
+RUN mkdir /usr/local/apache2/htdocs/http-https
+
+RUN mkdir /usr/local/apache2/htdocs/only-user-a
+RUN mkdir /usr/local/apache2/htdocs/only-user-b
+RUN mkdir /usr/local/apache2/htdocs/user-a-or-b
+
+COPY ./indexhttp.html /usr/local/apache2/htdocs/http-only/index2.index
+COPY ./indexhttps.html /usr/local/apache2/htdocs/http-https/index3.index
+
+COPY ./indexklientA.html /usr/local/apache2/htdocs/only-user-a/indexklientA.html
+COPY ./indexklientB.html /usr/local/apache2/htdocs/only-user-b/indexklientB.html
+COPY ./indexklientAiB.html /usr/local/apache2/htdocs/user-a-or-b/indexklientAiB.html
+
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
+	#konfiguracja apacza z zdekomentowaniem już tych 3 linijek i servername = localhost
+COPY ./httpd-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+	#konfiguracja pliku httpd-ssl.conf 
+RUN apachectl 
+

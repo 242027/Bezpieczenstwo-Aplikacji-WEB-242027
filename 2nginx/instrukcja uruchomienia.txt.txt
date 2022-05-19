@@ -1,0 +1,2 @@
+sudo docker build -t obraz .
+sudo docker run -dit --name kontener -p 80:80 -p 443:443 obraz
